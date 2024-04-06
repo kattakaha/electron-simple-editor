@@ -6,14 +6,17 @@ function App() {
     <div className="window">
       <Header />
       <div className="window-content">
-        <div className="padded-more">
-          <h1>Hello, World!</h1>
-          <p>
-            Thanks for downloading Photon. This is an example HTML page that is
-            linked up to compiled Photon CSS, has the proper meta tags and the
-            HTML structure.
-          </p>
-        </div>
+        <textarea
+          style={{
+            width: "100%",
+            height: "100%",
+            padding: "10px",
+            resize: "none",
+            border: "none",
+            outline: "none",
+            fontSize: "18px",
+          }}
+        ></textarea>
       </div>
     </div>
   );
