@@ -1,12 +1,17 @@
+import { useRef } from "react";
 import Header from "./components/Header";
 import "./plugin/photon/css/photon.css";
+import { DEFAULT_FONT_SIZE } from "./constants";
 
 function App() {
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
   return (
     <div className="window">
-      <Header />
+      <Header textAreaRef={textAreaRef} />
       <div className="window-content">
         <textarea
+          ref={textAreaRef}
           style={{
             width: "100%",
             height: "100%",
@@ -14,9 +19,9 @@ function App() {
             resize: "none",
             border: "none",
             outline: "none",
-            fontSize: "18px",
+            fontSize: `${DEFAULT_FONT_SIZE}px`,
           }}
-        ></textarea>
+        />
       </div>
     </div>
   );
