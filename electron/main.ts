@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, dialog } from "electron";
 
 process.env.DIST = path.join(__dirname, "../dist");
 process.env.VITE_PUBLIC = app.isPackaged
@@ -8,6 +8,7 @@ process.env.VITE_PUBLIC = app.isPackaged
   : path.join(process.env.DIST, "../public");
 
 let win: BrowserWindow | null;
+
 const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
 
 function createWindow() {
@@ -44,10 +45,32 @@ app.on("activate", () => {
 
 app.whenReady().then(createWindow);
 
+let fullPath: string | undefined = undefined;
+
+// Save file
 ipcMain.on("save", (_event: Electron.IpcMainEvent, text: string) => {
-  console.log(text);
-  fs.writeFile("test.txt", text, "utf-8", (err) => {
+  if (fullPath === undefined) {
+    dialog
+      .showSaveDialog(win!, {
+        title: "Save file",
+        defaultPath: "filename.txt",
+        filters: [{ name: "Text files", extensions: ["txt"] }],
+      })
+      .then(({ filePath }) => {
+        if (!filePath) return;
+        writeTofile(filePath, text);
+        fullPath = filePath;
+      });
+  } else {
+    writeTofile(fullPath, text);
+  }
+});
+
+// Save string to file
+function writeTofile(filePath: string, text: string) {
+  fs.writeFile(filePath, text, "utf-8", (err) => {
     if (err) console.error("there was an error:", err);
     console.log("file written successfully");
+    win?.webContents.send("saved", "success");
   });
-});
+}
