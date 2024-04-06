@@ -9,7 +9,7 @@ interface HeaderProps {
 export default function Header({ textAreaRef }: HeaderProps) {
   return (
     <header className="toolbar toolbar-header">
-      <h1 className="title">Header</h1>
+      <h1 className="title">Editor</h1>
       <div className="toolbar-actions">
         <div className="btn-group">
           <PlusButton textAreaRef={textAreaRef} />
