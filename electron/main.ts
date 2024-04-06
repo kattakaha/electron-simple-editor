@@ -92,12 +92,14 @@ const menuTemplate: MenuItemConstructorOptions[] = [
     submenu: [
       {
         label: "Save",
+        accelerator: "CmdOrCtrl+S",
         click: () => {
           win?.webContents.send("save-clicked");
         },
       },
       {
         label: "Save As",
+        accelerator: "CmdOrCtrl+Shift+S",
         click: () => {
           fullPath = undefined;
           win?.webContents.send("save-clicked");
@@ -107,4 +109,5 @@ const menuTemplate: MenuItemConstructorOptions[] = [
   },
 
   { role: "editMenu" },
+  { role: "viewMenu" },
 ];
