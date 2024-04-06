@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import path from "node:path";
 import { app, BrowserWindow, ipcMain } from "electron";
 
@@ -45,4 +46,8 @@ app.whenReady().then(createWindow);
 
 ipcMain.on("save", (_event: Electron.IpcMainEvent, text: string) => {
   console.log(text);
+  fs.writeFile("test.txt", text, "utf-8", (err) => {
+    if (err) console.error("there was an error:", err);
+    console.log("file written successfully");
+  });
 });
