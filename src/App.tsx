@@ -6,6 +6,18 @@ import { DEFAULT_FONT_SIZE } from "./constants";
 function App() {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
+  window.ipcRenderer.on("saved", (_event, results) => {
+    if (!textAreaRef.current) return;
+    if (results === "success") {
+      textAreaRef.current!.style.backgroundColor = "lightgreen";
+    } else {
+      textAreaRef.current!.style.backgroundColor = "lightcoral";
+    }
+    setTimeout(() => {
+      textAreaRef.current!.style.backgroundColor = "white";
+    }, 300);
+  });
+
   return (
     <div className="window">
       <Header textAreaRef={textAreaRef} />
