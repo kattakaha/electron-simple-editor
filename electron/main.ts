@@ -1,6 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
-import { app, BrowserWindow, ipcMain, dialog } from "electron";
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+  dialog,
+  MenuItemConstructorOptions,
+  Menu,
+} from "electron";
 
 process.env.DIST = path.join(__dirname, "../dist");
 process.env.VITE_PUBLIC = app.isPackaged
@@ -43,7 +50,11 @@ app.on("activate", () => {
   }
 });
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  createWindow();
+  const menu = Menu.buildFromTemplate(menuTemplate);
+  Menu.setApplicationMenu(menu);
+});
 
 let fullPath: string | undefined = undefined;
 
@@ -74,3 +85,29 @@ function writeTofile(filePath: string, text: string) {
     win?.webContents.send("saved", "success");
   });
 }
+
+const menuTemplate: MenuItemConstructorOptions[] = [
+  {
+    label: "File",
+    submenu: [
+      {
+        label: "Save",
+        accelerator: "CmdOrCtrl+S",
+        click: () => {
+          win?.webContents.send("save-clicked");
+        },
+      },
+      {
+        label: "Save As",
+        accelerator: "CmdOrCtrl+Shift+S",
+        click: () => {
+          fullPath = undefined;
+          win?.webContents.send("save-clicked");
+        },
+      },
+    ],
+  },
+
+  { role: "editMenu" },
+  { role: "viewMenu" },
+];
