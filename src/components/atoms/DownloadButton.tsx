@@ -6,7 +6,7 @@ export default function DownloadButton({ textAreaRef }: DownloadButtonProps) {
   const handleClickDownloadButton = () => {
     if (!textAreaRef.current) return;
     const text = textAreaRef.current.value;
-    console.log(text);
+    window.ipcRenderer.send("save", text);
   };
   return (
     <button
