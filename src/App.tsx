@@ -18,6 +18,13 @@ function App() {
     }, 300);
   });
 
+  // NOTE: Menu: Save button clicked
+  window.ipcRenderer.on("save-clicked", () => {
+    if (!textAreaRef.current) return;
+    const text = textAreaRef.current.value;
+    window.ipcRenderer.send("save", text);
+  });
+
   return (
     <div className="window">
       <Header textAreaRef={textAreaRef} />
