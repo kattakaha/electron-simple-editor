@@ -16,7 +16,7 @@ function App() {
             outline: "none",
             fontSize: "18px",
           }}
-        ></textarea>
+        />
       </div>
     </div>
   );
